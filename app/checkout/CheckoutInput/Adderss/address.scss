@@ -1,0 +1,170 @@
+.input-user {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    font-weight: bold;
+    font-size: 14px;
+  }
+  p {
+      font-size: 14px;
+      color: rgb(141, 139, 139);
+  }
+
+  .fieldset {
+    position: relative;
+    margin-top: 10px;
+    // margin-bottom: 10px;
+      
+    .mainfiled {
+      width: 600px;
+      height: 45px;
+    }
+
+    .subfiled {
+      width: 295px;
+      height: 45px;
+    }
+
+    .input-field {
+      margin-top: 10px;
+      border: 1px solid rgb(208, 206, 206);
+      padding-top: 12px;
+      padding-left: 7px;
+      font-size: 16px;
+      -webkit-appearance: none; /* Safari, Chrome */
+      -moz-appearance: none; /* Firefox */
+      appearance: none; /* その他 */
+
+      &.error {
+        border-color: red; /* エラーがある場合の赤線 */
+      }
+
+      &:focus + .label-title,
+      &:not(:placeholder-shown) + .label-title {
+        transform: translateX(0) translateY(-24px);
+      }
+    }
+
+    .label-title {
+      color: rgb(181, 181, 181);
+      position: absolute;
+      top: 60%;
+      left: 2px;
+      transform: translateY(-50%);
+      padding: 0 5px;
+      font-size: 14px;
+      transition: all 0.3s ease; /* トランジションを追加 */
+    }
+  }
+
+  .subfiledset {
+      display: flex;
+      flex-direction: column;
+      margin-right: 10px;
+  }
+  .select-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+
+    select {
+      width: 100%;
+      font-size: 16px;
+      border: 1px solid rgb(208, 206, 206);
+
+
+      &.error {
+        border-color: red; /* エラーがある場合の赤線 */
+      }
+    }
+  }
+
+  .select-wrapper::after {
+      content: "";
+      position: absolute;
+      top: 60%;
+      right: 15px; /* 矢印の位置を調整 */
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid #333;
+      pointer-events: none;
+      transform: translateY(-50%);
+  }
+
+  .checkBox {
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      
+      input {
+          width: 18px;
+      }
+      span {
+          font-size: 14px;
+      }
+  }
+
+  .tellphone {
+    position: relative;
+  }
+
+  .helpIcon {
+    width: 20px;
+    position: absolute;
+    top: 20px;
+    right: 10px;
+    color: gray;
+    cursor: pointer;
+  }
+
+  .caveat {
+    position: absolute;
+    width: 80px;
+    height: 60px;
+    right: -80px; /* 調整が必要な場合 */
+    top: -45px; /* 調整が必要な場合 */
+    background-color: black;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    width: 200px;
+    z-index: 1;
+  }
+
+  .caveat::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+  }
+
+  .helpIcon:hover + .caveat {
+    opacity: 1;
+    visibility: visible;
+  }
+
+
+}
+
+.addFieldSet {
+  display: flex;
+}
+
+.error-message {
+  font-size: 14px;;
+  color: red;
+}

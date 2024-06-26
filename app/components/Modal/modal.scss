@@ -1,0 +1,35 @@
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* 背景を半透明に */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+  overflow-y: auto; /* 縦スクロールを可能に */
+  padding-top: 50px;
+
+  .removeModal {
+      position: absolute;
+      top: 0px; /* ボタンを画面右上に固定 */
+      right: 320px;
+      font-size: 70px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: white; /* ボタンを目立たせるために色を変更 */
+  }
+
+  img {
+    position: relative;
+      width: 800px;
+      height: 800px;
+      object-fit: cover;
+      margin: 20px 0 0 0; /* 上下に少し余白を追加 */
+  }
+}
