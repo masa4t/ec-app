@@ -70,7 +70,7 @@ const Success = () => {
             : "読み込み中..."}
         </p>
         {orderDetails?.orderItems.map((item: any) => (
-          <div className="order_item">
+          <div className="order_item" key={item.id}>
             <img src={item.product.imageUrls[0]} />
             <p>{item.product.name}</p>
             <p>× {item.quantity}</p>
