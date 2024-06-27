@@ -29,8 +29,12 @@ const fetchProductById = async (id: string): Promise<itemTypes | null> => {
 const fetchProductIds = async (): Promise<string[]> => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/productIds`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/productIds`,
+      {
+        cache: "no-store",
+      }
     );
+
     if (!res.ok) {
       throw new Error("Failed to fetch product IDs");
     }

@@ -8,8 +8,12 @@ import MainButton from "./components/MainButton/MainButton";
 async function fetchProducts() {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/syncProducts`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/syncProducts`,
+      {
+        cache: "no-store",
+      }
     );
+
     const data = await res.json();
 
     return data;

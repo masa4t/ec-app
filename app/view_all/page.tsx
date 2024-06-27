@@ -1,5 +1,5 @@
-"use client";
-import React, { useEffect, useState } from "react";
+// "use client";
+// import React, { useEffect, useState } from "react";
 import "./view_all.scss";
 import { itemTypes } from "../types";
 import Link from "next/link";
@@ -7,7 +7,10 @@ import Link from "next/link";
 async function fetchProducts() {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/syncProducts`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/syncProducts`,
+      {
+        cache: "no-store",
+      }
     );
     const data = await res.json();
     return data;
@@ -17,16 +20,8 @@ async function fetchProducts() {
   }
 }
 
-const ViewAll = () => {
-  const [products, setProducts] = useState<itemTypes[]>([]);
-
-  useEffect(() => {
-    async function getProducts() {
-      const data = await fetchProducts();
-      setProducts(data);
-    }
-    getProducts();
-  }, []);
+const ViewAll = async () => {
+  const products = await fetchProducts();
 
   return (
     <div className="view-container">
