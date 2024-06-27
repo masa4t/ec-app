@@ -88,6 +88,7 @@ const Card: React.FC<CardProps> = ({ addressFormRef }) => {
         customer,
         paymentIntent: result.paymentIntent,
       });
+      
       router.push(`/success?session_id=${result.paymentIntent.id}`);
     }
   };

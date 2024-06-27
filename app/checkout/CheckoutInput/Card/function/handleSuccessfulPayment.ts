@@ -13,6 +13,11 @@ export const handleSuccessfulPayment = async ({
   paymentIntent,
   total,
 }: PaymentSuccessParams) => {
+  if (!process.env.NEXT_PUBLIC_BASE_URL) {
+    console.error("NEXT_PUBLIC_BASE_URL is not defined");
+    return;
+  }
+
   const body = JSON.stringify({ cartItems, customer, paymentIntent, total });
   console.log("Request body:", body); // ここでコンソールに出力
 
@@ -24,7 +29,7 @@ export const handleSuccessfulPayment = async ({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ cartItems, customer, paymentIntent, total }),
+        body: body,
       }
     );
 

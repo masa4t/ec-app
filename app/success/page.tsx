@@ -50,7 +50,7 @@ const Success = () => {
   };
 
   useEffect(() => {
-    if (cartItems.length > 0) {
+    if (cartItems.length) {
       dispatch(resetCart());
     }
 
