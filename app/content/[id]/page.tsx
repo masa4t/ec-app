@@ -2,14 +2,11 @@
 import React, { useEffect, useState } from "react";
 import "./content.scss";
 import { itemTypes } from "@/app/types";
-import Link from "next/link";
 import Modal from "@/app/components/Modal/Modal";
-
-import { addToCart } from "@/app/global/slice";
-import { useAppDispatch, useAppSelector } from "@/app/global/hooks";
 import Default from "../default/Default";
 import InCart from "../incart/InCart";
 import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/app/global/hooks";
 
 const fetchProductById = async (id: string): Promise<itemTypes | null> => {
   try {
@@ -22,17 +19,15 @@ const fetchProductById = async (id: string): Promise<itemTypes | null> => {
     const data: itemTypes = await res.json();
     return data;
   } catch (err) {
-    console.error(err);
+    console.error("Error fetching product by ID:", err);
     return null;
   }
 };
+
 const fetchProductIds = async (): Promise<string[]> => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/productIds`,
-      {
-        cache: "no-store",
-      }
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/productIds`
     );
 
     if (!res.ok) {
@@ -41,7 +36,7 @@ const fetchProductIds = async (): Promise<string[]> => {
     const data: string[] = await res.json();
     return data;
   } catch (err) {
-    console.error(err);
+    console.error("Error fetching product IDs:", err);
     return [];
   }
 };
@@ -50,7 +45,7 @@ const Content = ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const [product, setProduct] = useState<itemTypes | null>(null);
   const [productIds, setProductIds] = useState<string[]>([]);
-  const [isModalOpent, setIsModalOpen] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const router = useRouter();
 
@@ -69,10 +64,9 @@ const Content = ({ params }: { params: { id: string } }) => {
         setProduct(data);
       });
     }
-  }, []);
+  }, [id]);
 
   const exisitingItem = cartItems.find((item) => item.id === product?.id);
-  // console.log(product);
 
   const handleThumbnailClick = (imgUrl: string) => {
     setSelectedImage(imgUrl);
@@ -126,7 +120,7 @@ const Content = ({ params }: { params: { id: string } }) => {
         )}
       </div>
 
-      {isModalOpent && (
+      {isModalOpen && (
         <Modal imageUrls={product?.imageUrls} setIsModalOpen={setIsModalOpen} />
       )}
     </div>

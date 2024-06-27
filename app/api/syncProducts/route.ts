@@ -7,7 +7,9 @@ import prisma from "@/prisma/prisma";
 export async function GET() {
   try {
     // CMSからのデータ取得
-    const response = await client.get({ endpoint: "sup" });
+    const response = await client.get({
+      endpoint: "sup",
+    });
     const products = response.contents; // contentsプロパティから商品情報を取得
     // 商品情報を保存する配列
     const savedProducts = [];
