@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const allowedOrigins = ["https://ec-ghejo4w9u-masashits-projects.vercel.app"];
+const allowedOrigins = ["https://ec-m1kw03niu-masashits-projects.vercel.app"];
 
 export function withCORS(handler: any) {
   return async (req: NextRequest, ...args: any[]) => {

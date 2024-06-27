@@ -1,8 +1,7 @@
 import prisma from "@/prisma/prisma";
 import { NextRequest, NextResponse } from "next/server";
-import { withCORS } from "@/app/lib/cors";
 
-async function handler(
+export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
@@ -29,4 +28,4 @@ async function handler(
   }
 }
 
-export const GET = withCORS(handler);
+
