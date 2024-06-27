@@ -1,4 +1,6 @@
-import React, { RefObject, useState } from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import "./card.scss";
 import {
   PaymentElement,
@@ -8,7 +10,7 @@ import {
 import Link from "next/link";
 import { StripePaymentElementOptions } from "@stripe/stripe-js";
 import { useAppSelector } from "@/app/global/hooks";
-import { AddressRef } from "@/app/types";
+import { AddressData, AddressRef } from "@/app/types";
 import { checkStock } from "./function/checkStock";
 import { handleSuccessfulPayment } from "./function/handleSuccessfulPayment";
 import { useRouter } from "next/navigation";
@@ -18,18 +20,29 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ addressFormRef }) => {
-  const addressData = addressFormRef.current;
-  const customer = addressData?.getAddressData();
-
+  const [customer, setCustomer] = useState<AddressData | undefined>(undefined);
   const stripe = useStripe();
   const elements = useElements();
   const { cartItems, total } = useAppSelector((state) => state.cart);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
+  // 最新の顧客情報を取得する
+  useEffect(() => {
+    const updateCustomerData = () => {
+      const addressData = addressFormRef.current;
+      if (addressData) {
+        setCustomer(addressData.getAddressData());
+      }
+    };
+    updateCustomerData();
+  }, [addressFormRef]);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(addressData?.getAddressData());
+    const addressData = addressFormRef.current;
+    const currentCustomer = addressData?.getAddressData();
+    console.log("Current customer data:", currentCustomer);
 
     if (addressData?.validateForm) {
       // 住所のバリデーションチェック
@@ -64,8 +77,8 @@ const Card: React.FC<CardProps> = ({ addressFormRef }) => {
       confirmParams: {
         payment_method_data: {
           billing_details: {
-            name: customer?.lastName + " " + customer?.firstName,
-            email: customer?.email,
+            name: currentCustomer?.lastName + " " + currentCustomer?.firstName,
+            email: currentCustomer?.email,
             address: {
               country: "JP", // 手動で日本に設定
             },
@@ -85,10 +98,9 @@ const Card: React.FC<CardProps> = ({ addressFormRef }) => {
       await handleSuccessfulPayment({
         total,
         cartItems,
-        customer,
+        customer: currentCustomer,
         paymentIntent: result.paymentIntent,
       });
-      
       router.push(`/success?session_id=${result.paymentIntent.id}`);
     }
   };
