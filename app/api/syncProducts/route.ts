@@ -8,6 +8,9 @@ export async function GET() {
   try {
     // CMSからのデータ取得
     const response = await client.get({
+      customRequestInit: {
+        cache: "no-store", // キャッシュを利用せずに常に新しいデータを取得する
+      },
       endpoint: "sup",
     });
     const products = response.contents; // contentsプロパティから商品情報を取得
