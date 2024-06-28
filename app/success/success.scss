@@ -6,6 +6,8 @@
     justify-content: center;
     border: 1px dashed;
     position: relative;
+    opacity: 0;
+    animation: fadeIn var(--animation-duration) forwards;
 
 
     .greet {
@@ -39,4 +41,14 @@
         font-weight: bold;
 
     }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        } 
+        to {
+            opacity: 1;
+        }
+    }
+
 }

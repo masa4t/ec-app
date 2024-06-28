@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../global/hooks";
 import { resetCart } from "../global/slice";
 import { useSearchParams } from "next/navigation";
 import "./success.scss";
+import Loading from "../components/loading/Loading";
 
 interface OrderDetails {
   createdAt: string;
@@ -25,6 +26,8 @@ const Success = () => {
   const { cartItems } = useAppSelector((state) => state.cart);
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
+  const [loading, setLoading] = useState<boolean>(true);
+  const [animationDuration, setAnimationDuration] = useState("0s");
 
   const dispatch = useAppDispatch();
 
@@ -55,7 +58,12 @@ const Success = () => {
     }
 
     if (sessionId) {
+      const startTime = Date.now();
       fetchOrderDetails();
+      const endTime = Date.now();
+      const duration = (endTime - startTime) / 1000;
+      setAnimationDuration(`${duration}s`);
+      setLoading(false);
     }
   }, [sessionId, cartItems, dispatch]);
 
@@ -70,28 +78,43 @@ const Success = () => {
   };
 
   return (
-    <div className="success-body">
-      <h2 className="greet">
-        この度は、当ショップをご利用いただき誠にありがとうございます。
-      </h2>
-      <p className="greet">
-        ご注文は
-        {orderDetails
-          ? `${formatDate(orderDetails.createdAt)}に完了しました。`
-          : "読み込み中..."}
-      </p>
-      {orderDetails?.orderItems.map((item) => (
-        <div className="order_item" key={item.id}>
-          <img src={item.product.imageUrls[0]} alt={item.product.name} />
-          <p>{item.product.name}</p>
-          <p>× {item.quantity}</p>
-          <p>￥ {(item.quantity * item.product.price).toLocaleString()}</p>
+    <>
+      {loading ? (
+        <Loading
+          style={
+            { "--animation-duration": animationDuration } as React.CSSProperties
+          }
+        />
+      ) : (
+        <div
+          className="success-body"
+          style={
+            { "--animation-duration": animationDuration } as React.CSSProperties
+          }
+        >
+          <h2 className="greet">
+            この度は、当ショップをご利用いただき誠にありがとうございます。
+          </h2>
+          <p className="greet">
+            ご注文は
+            {orderDetails
+              ? `${formatDate(orderDetails.createdAt)}に完了しました。`
+              : "読み込み中..."}
+          </p>
+          {orderDetails?.orderItems.map((item) => (
+            <div className="order_item" key={item.id}>
+              <img src={item.product.imageUrls[0]} alt={item.product.name} />
+              <p>{item.product.name}</p>
+              <p>× {item.quantity}</p>
+              <p>￥ {(item.quantity * item.product.price).toLocaleString()}</p>
+            </div>
+          ))}
+          <div className="total-mony">
+            合計金額: ￥ {orderDetails?.total.toLocaleString()}
+          </div>
         </div>
-      ))}
-      <div className="total-mony">
-        合計金額: ￥ {orderDetails?.total.toLocaleString()}
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 
