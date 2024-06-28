@@ -59,11 +59,12 @@ const Success = () => {
 
     if (sessionId) {
       const startTime = Date.now();
-      fetchOrderDetails();
-      const endTime = Date.now();
-      const duration = (endTime - startTime) / 1000;
-      setAnimationDuration(`${duration}s`);
-      setLoading(false);
+      fetchOrderDetails().then(() => {
+        const endTime = Date.now();
+        const duration = (endTime - startTime) / 1000;
+        setAnimationDuration(`${duration}s`);
+        setLoading(false);
+      });
     }
   }, [sessionId, cartItems, dispatch]);
 
