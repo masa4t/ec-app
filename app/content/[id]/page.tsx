@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import Loading from "@/app/components/loading/Loading";
 import "./content.scss";
 import { itemTypes } from "@/app/types";
 import Modal from "@/app/components/Modal/Modal";
@@ -47,6 +48,8 @@ const Content = ({ params }: { params: { id: string } }) => {
   const [productIds, setProductIds] = useState<string[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [animationDuration, setAnimationDuration] = useState("0s");
   const router = useRouter();
 
   const { cartItems } = useAppSelector((state) => state.cart);
@@ -59,11 +62,17 @@ const Content = ({ params }: { params: { id: string } }) => {
 
   //個別商品を表示する
   useEffect(() => {
-    if (id) {
-      fetchProductById(id).then((data) => {
-        setProduct(data);
-      });
-    }
+    const fetchData = async () => {
+      const startTime = Date.now();
+      const data = await fetchProductById(id);
+      const endTime = Date.now();
+      const duration = (endTime - startTime) / 1000;
+      setAnimationDuration(`${duration}s`);
+      setProduct(data);
+      setLoading(false);
+    };
+
+    fetchData();
   }, [id]);
 
   const exisitingItem = cartItems.find((item) => item.id === product?.id);
@@ -80,50 +89,62 @@ const Content = ({ params }: { params: { id: string } }) => {
   };
 
   return (
-    <div className="itemBox">
-      <div
-        className="img-box"
-        onClick={() => {
-          setIsModalOpen(true);
-        }}
-      >
-        <img
-          src={selectedImage || product?.imageUrls[0]}
-          alt="Selected product"
-        />
-      </div>
-      <div className="item-desc">
-        <h2 className="product-n">{product?.name}</h2>
-        <p className="product-d">{product?.description}</p>
-
-        <p className="product-p">￥ {product?.price.toLocaleString()}</p>
-
-        <div className="product-img">
-          {product?.imageUrls.map((img, index) => (
+    <>
+      {loading ? (
+        <Loading  style={{ "--animation-duration": animationDuration } as React.CSSProperties}/>
+      ) : (
+        <div className="itemBox"   style={{ "--animation-duration": animationDuration } as React.CSSProperties}>
+          <div
+            className="img-box"
+            onClick={() => {
+              setIsModalOpen(true);
+            }}
+          >
             <img
-              src={img}
-              key={index}
-              alt={`Product image ${index}`}
-              onClick={() => handleThumbnailClick(img)}
-              className="thumbnail"
+              src={selectedImage || product?.imageUrls[0]}
+              alt="Selected product"
             />
-          ))}
+          </div>
+          <div className="item-desc">
+            <h2 className="product-n">{product?.name}</h2>
+            <p className="product-d">{product?.description}</p>
+
+            <p className="product-p">￥ {product?.price.toLocaleString()}</p>
+
+            <div className="product-img">
+              {product?.imageUrls.map((img, index) => (
+                <img
+                  src={img}
+                  key={index}
+                  alt={`Product image ${index}`}
+                  onClick={() => handleThumbnailClick(img)}
+                  className="thumbnail"
+                />
+              ))}
+            </div>
+
+            {exisitingItem ? (
+              <InCart
+                exisitingItem={exisitingItem}
+                handleNextProduct={handleNextProduct}
+              />
+            ) : (
+              <Default
+                product={product}
+                handleNextProduct={handleNextProduct}
+              />
+            )}
+          </div>
+
+          {isModalOpen && (
+            <Modal
+              imageUrls={product?.imageUrls}
+              setIsModalOpen={setIsModalOpen}
+            />
+          )}
         </div>
-
-        {exisitingItem ? (
-          <InCart
-            exisitingItem={exisitingItem}
-            handleNextProduct={handleNextProduct}
-          />
-        ) : (
-          <Default product={product} handleNextProduct={handleNextProduct} />
-        )}
-      </div>
-
-      {isModalOpen && (
-        <Modal imageUrls={product?.imageUrls} setIsModalOpen={setIsModalOpen} />
       )}
-    </div>
+    </>
   );
 };
 

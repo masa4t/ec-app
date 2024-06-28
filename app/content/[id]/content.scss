@@ -2,7 +2,8 @@
    display: flex;
     width: 1000px;
     height: 460px;
-
+    opacity: 0;
+    animation: fadeIn var(--animation-duration) forwards;
 
     .img-box {
         flex: 0.5;
@@ -73,6 +74,15 @@
               border-color: rgb(209, 208, 208);
             }
           }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        } 
+        to {
+            opacity: 1;
+        }
     }
 }
 
