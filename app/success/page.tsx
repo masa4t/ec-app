@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "../global/hooks";
 import { resetCart } from "../global/slice";
 import "./success.scss";
@@ -24,8 +24,8 @@ interface OrderDetails {
 const Success = () => {
   const [orderDetails, setOrderDetails] = useState<OrderDetails | null>(null);
   const { cartItems } = useAppSelector((state) => state.cart);
-  const router = useRouter();
-  const { session_id: sessionId } = router.query;
+  const searchParams = useSearchParams();
+  const sessionId = searchParams.get("session_id");
   const [loading, setLoading] = useState<boolean>(true);
   const [animationDuration, setAnimationDuration] = useState("0s");
 
@@ -58,6 +58,7 @@ const Success = () => {
     }
 
     if (sessionId) {
+      setLoading(true); // セッションIDが存在する場合にローディング状態を設定
       const startTime = Date.now();
       fetchOrderDetails().then(() => {
         const endTime = Date.now();
