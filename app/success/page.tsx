@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect, useState, Suspense } from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "../global/hooks";
 import { resetCart } from "../global/slice";
-import { useSearchParams } from "next/navigation";
 import "./success.scss";
 import Loading from "../components/loading/Loading";
 
@@ -24,8 +24,8 @@ interface OrderDetails {
 const Success = () => {
   const [orderDetails, setOrderDetails] = useState<OrderDetails | null>(null);
   const { cartItems } = useAppSelector((state) => state.cart);
-  const searchParams = useSearchParams();
-  const sessionId = searchParams.get("session_id");
+  const router = useRouter();
+  const { session_id: sessionId } = router.query;
   const [loading, setLoading] = useState<boolean>(true);
   const [animationDuration, setAnimationDuration] = useState("0s");
 
@@ -119,10 +119,4 @@ const Success = () => {
   );
 };
 
-export default function WrappedSuccess() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Success />
-    </Suspense>
-  );
-}
+export default Success;
