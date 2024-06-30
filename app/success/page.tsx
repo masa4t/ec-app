@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "../global/hooks";
 import { resetCart } from "../global/slice";
@@ -120,4 +120,10 @@ const Success = () => {
   );
 };
 
-export default Success;
+export default function WrappedSuccess() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <Success />
+    </Suspense>
+  );
+}
