@@ -33,9 +33,11 @@ const stockCheck = async (productId: string, quantity: number) => {
 
 const Default = ({ product, handleNextProduct }: DefaultType) => {
   const [count, setCount] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
 
   const handlePurchase = async () => {
+    setLoading(true);
     if (product) {
       // 在庫チェックAPIを呼び出し
       const isAvailable = await stockCheck(product.id, count);
@@ -95,9 +97,13 @@ const Default = ({ product, handleNextProduct }: DefaultType) => {
           </div>
 
           <div className="button-area">
-            <button className="first-btn" onClick={handlePurchase}>
-              カートに入れる
-            </button>
+            {loading ? (
+              <button className="adding">adding...</button>
+            ) : (
+              <button className="first-btn" onClick={handlePurchase}>
+                カートに入れる
+              </button>
+            )}
 
             <Link href="/">
               <button className="second-btn">買い物を続ける</button>
