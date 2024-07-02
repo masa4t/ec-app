@@ -11,13 +11,39 @@ interface DefaultType {
   handleNextProduct: () => void;
 }
 
+const stockCheck = async (productId: string, quantity: number) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/addCheck`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ productId, quantity }),
+      }
+    );
+    const data = await response.json();
+    return data.isAvailable;
+  } catch (err) {
+    console.error("在庫チェックに失敗しました", err);
+    return false;
+  }
+};
+
 const Default = ({ product, handleNextProduct }: DefaultType) => {
   const [count, setCount] = useState<number>(1);
   const dispatch = useAppDispatch();
 
-  const handlePurchase = () => {
+  const handlePurchase = async () => {
     if (product) {
-      dispatch(addToCart({ product, count }));
+      // 在庫チェックAPIを呼び出し
+      const isAvailable = await stockCheck(product.id, count);
+      if (isAvailable) {
+        dispatch(addToCart({ product, count }));
+      } else {
+        alert("在庫が不足しています。");
+      }
     }
   };
 
