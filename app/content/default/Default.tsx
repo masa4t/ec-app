@@ -26,8 +26,7 @@ const stockCheck = async (productId: string, quantity: number) => {
     const data = await response.json();
     return data.isAvailable;
   } catch (err) {
-    console.error("在庫チェックに失敗しました", err);
-    return false;
+    alert("在庫が不足しています。");
   }
 };
 

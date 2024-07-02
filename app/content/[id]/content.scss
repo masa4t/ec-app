@@ -79,9 +79,11 @@
     @keyframes fadeIn {
         from {
             opacity: 0;
+            filter: blur(1.5rem);
         } 
         to {
             opacity: 1;
+            filter: blur(0);
         }
     }
 }
