@@ -15,21 +15,32 @@
   padding-top: 50px;
 
   .removeModal {
-      position: absolute;
-      top: 0px; /* ボタンを画面右上に固定 */
-      right: 320px;
-      font-size: 70px;
-      cursor: pointer;
-      background: none;
-      border: none;
-      color: white; /* ボタンを目立たせるために色を変更 */
+    position: absolute;
+    top: 0; /* ボタンを画面右上に固定 */
+    right: 320px;
+    font-size: 70px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: white; /* ボタンを目立たせるために色を変更 */
   }
 
   img {
     position: relative;
-      width: 800px;
-      height: 800px;
-      object-fit: cover;
-      margin: 20px 0 0 0; /* 上下に少し余白を追加 */
+    width: 800px;
+    height: 800px;
+    object-fit: cover;
+    margin: 20px 0 0 0; /* 上下に少し余白を追加 */
   }
+}
+
+.removeModal button {
+  background: none;
+  border: none;
+  font-size: 70px;
+  color: white;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 320px;
 }

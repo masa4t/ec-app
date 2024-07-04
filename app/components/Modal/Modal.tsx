@@ -11,17 +11,14 @@ const Modal = ({ imageUrls, setIsModalOpen }: ModalProps) => {
     setIsModalOpen(false);
   };
   return (
-    <>
-      <div className="modal">
-        <div className="removeModal">
-          <button onClick={closeModal}>×</button>
-        </div>
-
-        {imageUrls?.map((image, index) => (
-          <img src={image} key={index} />
-        ))}
-      </div>
-    </>
+    <div className="modal">
+      <button className="removeModal" onClick={closeModal}>
+        ×
+      </button>
+      {imageUrls?.map((image, index) => (
+        <img src={image} key={index} alt={`Modal image ${index}`} />
+      ))}
+    </div>
   );
 };
 
