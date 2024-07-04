@@ -91,52 +91,56 @@ const Content = ({ params }: { params: { id: string } }) => {
   return (
     <>
       {!loading ? (
-        <div
-          className="itemBox"
-          style={
-            { "--animation-duration": animationDuration } as React.CSSProperties
-          }
-        >
+        <>
           <div
-            className="img-box"
-            onClick={() => {
-              setIsModalOpen(true);
-            }}
+            className="itemBox"
+            style={
+              {
+                "--animation-duration": animationDuration,
+              } as React.CSSProperties
+            }
           >
-            <img
-              src={selectedImage || product?.imageUrls[0]}
-              alt="Selected product"
-            />
-          </div>
-          <div className="item-desc">
-            <h2 className="product-n">{product?.name}</h2>
-            <p className="product-d">{product?.description}</p>
-
-            <p className="product-p">￥ {product?.price.toLocaleString()}</p>
-
-            <div className="product-img">
-              {product?.imageUrls.map((img, index) => (
-                <img
-                  src={img}
-                  key={index}
-                  alt={`Product image ${index}`}
-                  onClick={() => handleThumbnailClick(img)}
-                  className="thumbnail"
-                />
-              ))}
+            <div
+              className="img-box"
+              onClick={() => {
+                setIsModalOpen(true);
+              }}
+            >
+              <img
+                src={selectedImage || product?.imageUrls[0]}
+                alt="Selected product"
+              />
             </div>
+            <div className="item-desc">
+              <h2 className="product-n">{product?.name}</h2>
+              <p className="product-d">{product?.description}</p>
 
-            {exisitingItem ? (
-              <InCart
-                exisitingItem={exisitingItem}
-                handleNextProduct={handleNextProduct}
-              />
-            ) : (
-              <Default
-                product={product}
-                handleNextProduct={handleNextProduct}
-              />
-            )}
+              <p className="product-p">￥ {product?.price.toLocaleString()}</p>
+
+              <div className="product-img">
+                {product?.imageUrls.map((img, index) => (
+                  <img
+                    src={img}
+                    key={index}
+                    alt={`Product image ${index}`}
+                    onClick={() => handleThumbnailClick(img)}
+                    className="thumbnail"
+                  />
+                ))}
+              </div>
+
+              {exisitingItem ? (
+                <InCart
+                  exisitingItem={exisitingItem}
+                  handleNextProduct={handleNextProduct}
+                />
+              ) : (
+                <Default
+                  product={product}
+                  handleNextProduct={handleNextProduct}
+                />
+              )}
+            </div>
           </div>
 
           {isModalOpen && (
@@ -145,7 +149,7 @@ const Content = ({ params }: { params: { id: string } }) => {
               setIsModalOpen={setIsModalOpen}
             />
           )}
-        </div>
+        </>
       ) : (
         <Loading
           style={
