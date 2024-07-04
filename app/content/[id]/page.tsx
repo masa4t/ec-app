@@ -90,10 +90,13 @@ const Content = ({ params }: { params: { id: string } }) => {
 
   return (
     <>
-      {loading ? (
-        <Loading  style={{ "--animation-duration": animationDuration } as React.CSSProperties}/>
-      ) : (
-        <div className="itemBox"   style={{ "--animation-duration": animationDuration } as React.CSSProperties}>
+      {!loading ? (
+        <div
+          className="itemBox"
+          style={
+            { "--animation-duration": animationDuration } as React.CSSProperties
+          }
+        >
           <div
             className="img-box"
             onClick={() => {
@@ -143,6 +146,12 @@ const Content = ({ params }: { params: { id: string } }) => {
             />
           )}
         </div>
+      ) : (
+        <Loading
+          style={
+            { "--animation-duration": animationDuration } as React.CSSProperties
+          }
+        />
       )}
     </>
   );
