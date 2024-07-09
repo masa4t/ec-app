@@ -117,7 +117,7 @@ const Address = forwardRef<AddressRef>((props, ref) => {
                   },
                 })}
               />
-              <label className="label-title">郵便番号</label>
+              <label className="label-title">郵便番号（ハイフンあり）</label>
             </fieldset>
             {errors.postalCode && (
               <span className="error-message">
@@ -219,7 +219,7 @@ const Address = forwardRef<AddressRef>((props, ref) => {
               },
             })}
           />
-          <label className="label-title">電話番号</label>
+          <label className="label-title">電話番号（ハイフンあり）</label>
           <HelpOutlineIcon className="helpIcon" />
           <div className="caveat">
             ご注文について連絡をする必要があるときに使用します。
