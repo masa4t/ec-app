@@ -13,11 +13,12 @@
         display: flex;
        
         li {
-            width:200px;
+            width: 200px;
             height: 460px;
             background-position: center;
+            background-size: contain; /* 画像を親要素に収める */
+            background-repeat: no-repeat;
             padding: 2px;
-            object-fit: scale-down;
             &:hover {
                 opacity: 0.8;
             }
