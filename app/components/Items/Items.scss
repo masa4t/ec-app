@@ -17,7 +17,7 @@
             height: 460px;
             background-position: center;
             padding: 2px;
-            object-fit: contain;
+            object-fit: scale-down;
             &:hover {
                 opacity: 0.8;
             }
