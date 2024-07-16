@@ -113,6 +113,10 @@ const Card: React.FC<CardProps> = ({ addressFormRef }) => {
         },
       },
     },
+    business: {
+      // Link を無効にするために、適切な business を設定
+      name: "Your Business Name",
+    },
   };
 
   return (
